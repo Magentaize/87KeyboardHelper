@@ -8,6 +8,7 @@ namespace _87KeyboardHelper
 {
     class Program
     {
+        private static INPUT[] KeyTData = INPUT.Creat(VKeys.KEY_T);
         private static INPUT[] SpaceData = INPUT.Creat(VKeys.SPACE);
         private static INPUT[] VolumeUpData = INPUT.Creat(VKeys.VOLUME_UP);
         private static INPUT[] VolumeDownData = INPUT.Creat(VKeys.VOLUME_DOWN);
@@ -22,14 +23,21 @@ namespace _87KeyboardHelper
         static void Main(string[] args)
         {
             var keyHook = new KeyboardHook();
-            keyHook.KeyDown += keyHook_KeyDown;
-            keyHook.KeyUp += keyHook_KeyUp;
+            //keyHook.KeyDown += keyHook_KeyDown;
+            //keyHook.KeyUp += keyHook_KeyUp;
+            keyHook.KeyUp += (vKeys =>
+            {
+                if (vKeys == VKeys.XBUTTON1)
+                    SendInput(KeyTData);
+            });
             keyHook.Install();
 
-            var k = new MouseHook();
-            k.MouseWheel += t => SendInput(SpaceData);
-            k.Install();
+            var mouseHook = new MouseHook();
+            mouseHook.MouseWheel += t => SendInput(KeyTData);
+            mouseHook.Install();
+
             AppDomain.CurrentDomain.ProcessExit += (_, __) => keyHook.Uninstall();
+            AppDomain.CurrentDomain.ProcessExit += (_, __) => mouseHook.Uninstall();
             Application.Run();
         }
 
@@ -39,7 +47,6 @@ namespace _87KeyboardHelper
         }
 
         private static bool LMenuKeyDown = false;
-
         static void keyHook_KeyDown(VKeys vKeys)
         {
 #if DEBUG
