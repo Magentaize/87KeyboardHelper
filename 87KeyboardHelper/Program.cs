@@ -8,6 +8,7 @@ namespace _87KeyboardHelper
 {
     class Program
     {
+        private static INPUT[] SpaceData = INPUT.Creat(VKeys.SPACE);
         private static INPUT[] VolumeUpData = INPUT.Creat(VKeys.VOLUME_UP);
         private static INPUT[] VolumeDownData = INPUT.Creat(VKeys.VOLUME_DOWN);
         private static INPUT[] MediaPrevTrackData = INPUT.Creat(VKeys.MEDIA_PREV_TRACK);
@@ -24,7 +25,10 @@ namespace _87KeyboardHelper
             keyHook.KeyDown += keyHook_KeyDown;
             keyHook.KeyUp += keyHook_KeyUp;
             keyHook.Install();
-            
+
+            var k = new MouseHook();
+            k.MouseWheel += t => SendInput(SpaceData);
+            k.Install();
             AppDomain.CurrentDomain.ProcessExit += (_, __) => keyHook.Uninstall();
             Application.Run();
         }
