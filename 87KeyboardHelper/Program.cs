@@ -13,10 +13,10 @@ namespace _87KeyboardHelper
         private static INPUT[] MediaPrevTrackData = INPUT.Creat(VKeys.MEDIA_PREV_TRACK);
         private static INPUT[] MediaNextTrackData = INPUT.Creat(VKeys.MEDIA_NEXT_TRACK);
         private static INPUT[] MediaPlayPauseData = INPUT.Creat(VKeys.MEDIA_PLAY_PAUSE);
-        private static INPUT[] UpData = INPUT.Creat(VKeys.UP);
-        private static INPUT[] DownData = INPUT.Creat(VKeys.DOWN);
+        private static INPUT[] UpData = INPUT.CreatArrow(VKeys.UP);
+        private static INPUT[] DownData = INPUT.CreatArrow(VKeys.DOWN);
         private static INPUT[] LeftData = INPUT.CreatArrow(VKeys.LEFT);
-        private static INPUT[] RightData = INPUT.Creat(VKeys.RIGHT);
+        private static INPUT[] RightData = INPUT.CreatArrow(VKeys.RIGHT);
 
         static void Main(string[] args)
         {
@@ -24,19 +24,23 @@ namespace _87KeyboardHelper
             keyHook.KeyDown += keyHook_KeyDown;
             keyHook.KeyUp += keyHook_KeyUp;
             keyHook.Install();
-
+            
+            AppDomain.CurrentDomain.ProcessExit += (_, __) => keyHook.Uninstall();
             Application.Run();
         }
 
         private static uint SendInput(INPUT[] data)
         {
-            return KeyboardHook.SendInput((uint)data.Length, data, Marshal.SizeOf(typeof(INPUT)));
+            return Hook.SendInput((uint) data.Length, data, Marshal.SizeOf(typeof(INPUT)));
         }
 
         private static bool LMenuKeyDown = false;
+
         static void keyHook_KeyDown(VKeys vKeys)
         {
-            Console.WriteLine(vKeys);
+#if DEBUG
+            Console.WriteLine("Down: " + vKeys);
+#endif
             if (vKeys == VKeys.LMENU)
                 LMenuKeyDown = true;
             else if (LMenuKeyDown)
@@ -77,7 +81,9 @@ namespace _87KeyboardHelper
         private static bool DefinedKeyUp = false;
         static void keyHook_KeyUp(VKeys vKeys)
         {
-            Console.WriteLine(vKeys);
+#if DEBUG
+            Console.WriteLine("Up: " + vKeys);
+#endif
             if (LMenuKeyDown)
             {
                 switch (vKeys)

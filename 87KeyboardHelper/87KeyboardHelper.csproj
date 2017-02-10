@@ -44,14 +44,21 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="WindowsApi\Enum\HOOKTYPE.cs" />
     <Compile Include="WindowsApi\Enum\INPUT_TYPE.cs" />
     <Compile Include="WindowsApi\Enum\KEYEVENTF.cs" />
+    <Compile Include="WindowsApi\Enum\WM_MESSAGE.cs" />
+    <Compile Include="WindowsApi\Hook.cs" />
+    <Compile Include="WindowsApi\MouseHook.cs" />
+    <Compile Include="WindowsApi\Struct\HARDWAREINPUT.cs" />
     <Compile Include="WindowsApi\Struct\INPUT.cs" />
     <Compile Include="WindowsApi\Struct\KBDLLHOOKSTRUCT.cs" />
     <Compile Include="WindowsApi\KeyboardHook.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="WindowsApi\Enum\VKeys.cs" />
+    <Compile Include="WindowsApi\Struct\KEYBDINPUT.cs" />
+    <Compile Include="WindowsApi\Struct\MOUSEINPUT.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

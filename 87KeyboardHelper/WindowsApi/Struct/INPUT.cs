@@ -40,9 +40,23 @@ namespace _87KeyboardHelper.WindowsApi
                     {
                         ki = new KEYBDINPUT
                         {
-                            wVk = Convert.ToUInt16(vKeys),
+                            wVk = Convert.ToUInt16(VKeys.LMENU),
                             wScan = 0,
-                            dwFlags = Convert.ToUInt32(0),
+                            dwFlags = Convert.ToUInt32(KEYEVENTF.KEYUP),
+                            dwExtraInfo = IntPtr.Zero
+                        }
+                    }
+                },
+                                new INPUT()
+                {
+                    type = INPUT_TYPE.KEYBOARD,
+                    u = new INPUT_U
+                    {
+                        ki = new KEYBDINPUT
+                        {
+                            wVk = Convert.ToUInt16(VKeys.KEY_A),
+                            wScan = 0,
+                            dwFlags = Convert.ToUInt32(KEYEVENTF.KEYUP),
                             dwExtraInfo = IntPtr.Zero
                         }
                     }
@@ -56,11 +70,39 @@ namespace _87KeyboardHelper.WindowsApi
                         {
                             wVk = Convert.ToUInt16(vKeys),
                             wScan = 0,
-                            dwFlags = Convert.ToUInt32(KEYEVENTF.EXTENDEDKEY | KEYEVENTF.KEYUP),
+                            dwFlags = 0|Convert.ToUInt32(KEYEVENTF.EXTENDEDKEY),
                             dwExtraInfo = IntPtr.Zero
                         }
                     }
-                }
+                },
+                new INPUT()
+                {
+                    type = INPUT_TYPE.KEYBOARD,
+                    u = new INPUT_U
+                    {
+                        ki = new KEYBDINPUT
+                        {
+                            wVk = Convert.ToUInt16(vKeys),
+                            wScan = 0,
+                            dwFlags = 0|Convert.ToUInt32(KEYEVENTF.KEYUP),
+                            dwExtraInfo = IntPtr.Zero
+                        }
+                    }
+                },
+                //new INPUT()
+                //{
+                //    type = INPUT_TYPE.KEYBOARD,
+                //    u = new INPUT_U
+                //    {
+                //        ki = new KEYBDINPUT
+                //        {
+                //            wVk = Convert.ToUInt16(VKeys.LMENU),
+                //            wScan = 0,
+                //            dwFlags = 0,
+                //            dwExtraInfo = IntPtr.Zero
+                //        }
+                //    }
+                //},
             };
         }
 
@@ -94,40 +136,5 @@ namespace _87KeyboardHelper.WindowsApi
         public MOUSEINPUT mi;
         [FieldOffset(0)]
         public HARDWAREINPUT hi;
-    }
-
-    [StructLayout(LayoutKind.Sequential)]
-    public struct MOUSEINPUT
-    {
-        public int dx;
-        public int dy;
-        public uint mouseData;
-        /// <summary>
-        /// Defined by the combinations of <see cref="KEYEVENTF"/>
-        /// </summary>
-        public uint dwFlags;
-        public uint time;
-        public IntPtr dwExtraInfo;
-    }
-
-    [StructLayout(LayoutKind.Sequential)]
-    public struct KEYBDINPUT
-    {
-        public ushort wVk;
-        public ushort wScan;
-        /// <summary>
-        /// Defined by the combinations of <see cref="KEYEVENTF"/>
-        /// </summary>
-        public uint dwFlags;
-        public uint time;
-        public IntPtr dwExtraInfo;
-    }
-
-    [StructLayout(LayoutKind.Sequential)]
-    public struct HARDWAREINPUT
-    {
-        public uint uMsg;
-        public ushort wParamL;
-        public ushort wParamH;
     }
 }
